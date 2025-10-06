@@ -18,7 +18,16 @@ io.on("connection", (socket) => {
   console.log("usermailfrom => ", socket.handshake.query.loggeduser);
   console.log("a user connected", socket.id);
   binder[socket.handshake.query.loggeduser] = socket.id;
-  socket.on("messagefromclient", ({ mailfrom, mailto, id, message }) => {
-    socket.to(binder[mailto]).emit("messagefrombackend", message);
+  socket.on("messagefromclient", ({ mailfrom, mailto, message }) => {
+    io.to(binder[mailto]).emit("messagefrombackend", {
+      mailfrom,
+      mailto,
+      message,
+    });
+    io.to(binder[mailfrom]).emit("messagefrombackend", {
+      mailfrom,
+      mailto,
+      message,
+    });
   });
 });

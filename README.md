@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PrivateChat
 
-## Getting Started
+<p align="center">
+  <strong>A modern, secure chat application built for professional communication using Socket.IO.</strong>
+</p>
 
-First, run the development server:
+---
+
+## 🚀 About the Project
+
+In professional meetings or work environments, sharing a personal phone number is often unnecessary or uncomfortable.  
+PrivateChat solves this problem by enabling real-time communication using email-based authentication instead of phone numbers.
+
+With company-issued emails becoming standard, PrivateChat allows users to connect securely using Google or GitHub OAuth.
+
+---
+
+## ✨ Key Highlights
+
+- No phone number required
+- Email-based authentication (Google & GitHub)
+- Real-time messaging
+- Secure and scalable architecture
+- Built for professional and enterprise use
+
+---
+
+## 🛠️ Tech Stack
+
+- Next.js – Frontend & backend framework
+- NextAuth.js – Authentication (OAuth handled internally)
+- MongoDB – Database
+- Socket.IO – Real-time communication
+- Tailwind CSS – Styling
+
+---
+
+## ⚙️ Quick Setup for Contributors
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/25sahilsingh/privatechat.git
+cd privatechat
+```
+
+---
+
+### Environment Configuration
+
+Create a `.env` file in the root directory:
+
+```bash
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-random-secret-string"
+
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+GITHUB_ID="your-github-client-id"
+GITHUB_SECRET="your-github-client-secret"
+
+MONGODB_URL="your-mongodb-connection-string"
+```
+
+---
+
+## 🔐 OAuth Setup Guides
+
+### Google OAuth
+
+Official Documentation:  
+https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid
+
+Steps:
+
+1. Open Google Cloud Console
+2. Create a new project
+3. Configure OAuth consent screen
+4. Create OAuth Client ID (Web Application)
+5. Copy Client ID and Client Secret
+
+---
+
+### GitHub OAuth
+
+Official Documentation:  
+https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+
+Steps:
+
+1. Go to GitHub → Settings → Developer Settings
+2. Create a new OAuth App
+3. Set callback URL:
+
+```text
+http://localhost:3000/api/auth/callback/github
+```
+
+4. Copy Client ID and Client Secret
+
+---
+
+## 🗄️ MongoDB Setup
+
+Official Documentation:  
+https://www.mongodb.com/docs/atlas/getting-started/
+
+Steps:
+
+1. Create an account on MongoDB Atlas
+2. Create a free cluster
+3. Add a database user
+4. Whitelist your IP address
+5. Copy the connection string
+
+Example:
+
+```bash
+mongodb+srv://username:password@cluster.mongodb.net/privatechat
+```
+
+Add this value to `MONGODB_URL` in your `.env` file.
+
+---
+
+## ▶️ Running the Project
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will start:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Next.js server
+- Socket.IO service
+- Authentication providers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✅ Current Features
 
-To learn more about Next.js, take a look at the following resources:
+- Real-time chat
+- Message persistence
+- Google and GitHub login
+- Online user status
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔮 Future Roadmap
 
-## Deploy on Vercel
+- AI-powered unread message summary
+- File sharing
+- Video calling (WebRTC)
+- Enhanced security and encryption
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Open a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.

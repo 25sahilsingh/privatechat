@@ -16,16 +16,25 @@ const io = new Server(expressServer, {
 const binder = {};
 io.on("connection", (socket) => {
   binder[socket.handshake.query.loggeduser] = socket.id;
+  io.emit("onlineuser", { onlineusers: binder });
   socket.on("messagefromclient", ({ mailfrom, mailto, message }) => {
     io.to(binder[mailto]).emit("messagefrombackend", {
-      mailfrom,
-      mailto,
+      mailFrom: mailfrom,
+      mailTo: mailto,
       message,
     });
     io.to(binder[mailfrom]).emit("messagefrombackend", {
-      mailfrom,
-      mailto,
+      mailFrom: mailfrom,
+      mailTo: mailto,
       message,
     });
+  });
+  socket.on("disconnect", () => {
+    for (let key in binder) {
+      if (binder[key] == socket.id) {
+        delete binder[key];
+      }
+    }
+    io.emit("onlineuser", { onlineusers: binder });
   });
 });

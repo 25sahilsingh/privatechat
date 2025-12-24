@@ -142,6 +142,7 @@ export default function ChatPage() {
         {/* Chat List */}
         <ContactLeft
           prevconnecteduser={prevconnecteduser}
+          currentuser={session?.user.email}
           onlineUsers={onlineUsers}
           changemailto={(mail) => {
             setmailto(mail);

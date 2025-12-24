@@ -1,6 +1,7 @@
 {
   "name": "privatechat",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",

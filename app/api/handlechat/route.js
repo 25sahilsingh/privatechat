@@ -9,6 +9,7 @@ export async function POST(request) {
   await newchat.save();
   return NextResponse.json({ message: "message added successfully" });
 }
+//fetch chat for two particular users.
 export async function PATCH(request) {
   const data = new URL(request.url).searchParams.get("users");
   const { mailfrom, mailto } = JSON.parse(data);

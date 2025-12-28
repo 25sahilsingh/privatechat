@@ -10,6 +10,14 @@ export async function POST(request) {
     mailto: currentuser,
     mailfrom: { $in: prevconnecteduser },
   });
-  console.log(all_chats);
-  return NextResponse.json({ all_chats });
+  const unreadcount = {};
+  prevconnecteduser.map((user) => {
+    unreadcount[user] = 0;
+  });
+  all_chats.forEach((chat) => {
+    if (unreadcount.hasOwnProperty(chat?.mailfrom)) {
+      unreadcount[chat.mailfrom] = unreadcount[chat.mailfrom] + 1;
+    }
+  });
+  return NextResponse.json({ unreadcount });
 }

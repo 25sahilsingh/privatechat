@@ -16,19 +16,22 @@ export default function ChatPage() {
   const [messages, setmessages] = useState([]);
   const [onlineUsers, setonlineUsers] = useState({});
   const [prevconnecteduser, setprevconnecteduser] = useState([]);
+  const [unreadcount, setunreadcount] = useState({});
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
     if (!session) return;
-
     socket = io("http://localhost:5000", {
       query: `loggeduser=${session?.user.email}`,
     });
-
     const fetchPrev = async () => {
       const {
         data: { fetchconnecteduser },
       } = await axios.get(`/api/connecteduser?mail=${session?.user.email}`);
-
+      const { data } = await axios.post("/api/handlechat/allchat", {
+        prevconnecteduser: fetchconnecteduser,
+        currentuser: session?.user.email,
+      });
+      setunreadcount(data?.unreadcount);
       setprevconnecteduser(fetchconnecteduser);
     };
     fetchPrev();
@@ -144,6 +147,7 @@ export default function ChatPage() {
           prevconnecteduser={prevconnecteduser}
           currentuser={session?.user.email}
           onlineUsers={onlineUsers}
+          unreadcount={unreadcount}
           changemailto={(mail) => {
             setmailto(mail);
           }}

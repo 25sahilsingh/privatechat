@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Image from "next/image";
 import ContactLeft from "../components/ContactLeft";
+import Popup_sidemenu from "../components/chatpage_component/Popup_sidemenu";
 let socket;
 
 export default function ChatPage() {
@@ -17,6 +18,7 @@ export default function ChatPage() {
   const [onlineUsers, setonlineUsers] = useState({});
   const [prevconnecteduser, setprevconnecteduser] = useState([]);
   const [unreadcount, setunreadcount] = useState({});
+  const [rightprofile_menu, setrightprofile_menu] = useState(false);
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
     if (!session) return;
@@ -61,7 +63,7 @@ export default function ChatPage() {
         mailfrom: session?.user.email,
       };
       const chat = await axios.patch(
-        `/api/handlechat?users=${JSON.stringify(users)}`
+        `/api/handlechat?users=${JSON.stringify(users)}`,
       );
       setmessages(chat.data);
     };
@@ -104,7 +106,7 @@ export default function ChatPage() {
   };
   return (
     <div className="h-screen flex bg-black text-gray-200">
-      {/* SIDEBAR */}
+      {/* LEFT SIDEBAR */}
       <aside className="w-1/4 bg-[#111] border-r border-gray-800 flex flex-col">
         {/* User Profile */}
         <div className="p-4 flex items-center gap-3 border-b border-gray-800">
@@ -148,17 +150,30 @@ export default function ChatPage() {
           currentuser={session?.user.email}
           onlineUsers={onlineUsers}
           unreadcount={unreadcount}
+          setprevconnecteduser={setprevconnecteduser}
           changemailto={(mail) => {
             setmailto(mail);
           }}
           mailto={mailto}
+          rightprofile_menu={rightprofile_menu}
+          setrightprofile_menu={setrightprofile_menu}
         />
       </aside>
       {/* MAIN CHAT AREA */}
       <main className="flex-1 flex flex-col">
         {/* Chat Header */}
-        <div className="p-4 border-b border-gray-800 bg-[#0e0e0e] text-xl font-semibold">
+        <div className="flex p-4 border-b border-gray-800 bg-[#0e0e0e] text-xl font-semibold space justify-between">
           {mailto ? `Chat with: ${mailto}` : "Select a contact"}
+          <Popup_sidemenu
+            changemailto={(mail) => {
+              setmailto(mail);
+            }}
+            setprevconnecteduser={setprevconnecteduser}
+            mailTo={mailto}
+            currentuser={session?.user.email}
+            rightprofile_menu={rightprofile_menu}
+            setrightprofile_menu={setrightprofile_menu}
+          />
         </div>
 
         {/* Messages */}

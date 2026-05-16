@@ -16,7 +16,8 @@ export default function ContactUs() {
           <h2 className="text-2xl font-semibold text-white">Get in Touch</h2>
 
           <p className="text-gray-300">
-            📧 <span className="font-medium">Email:</span> support@chatshant.com
+            📧 <span className="font-medium">Email: </span>
+            PutRealeMailInFuture@gmail.com
           </p>
 
           <p className="text-gray-300">

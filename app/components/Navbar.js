@@ -2,13 +2,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
 const Navbar = () => {
   const { data: session, status } = useSession();
   return (
     <div>
       {/* NAVBAR */}
       <nav className="flex items-center justify-between px-8 py-4 bg-black/20 backdrop-blur-xl border-b border-white/10">
-        <div className="flex items-center space-x-3">
+        <Link href="/" className="flex items-center space-x-3">
           <Image
             alt="Chat app logo"
             src="/logo_chat.png"
@@ -17,7 +18,7 @@ const Navbar = () => {
             className="rounded-lg"
           />
           <span className="text-xl font-semibold tracking-wide">ChatShant</span>
-        </div>
+        </Link>
 
         <div className="flex items-center space-x-8 text-gray-300">
           <Link href="/" className="hover:text-white transition">

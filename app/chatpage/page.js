@@ -70,7 +70,7 @@ export default function ChatPage() {
     fetchChat();
 
     return () => socket.removeAllListeners("messagefrombackend");
-  }, [mailto]);
+  }, [mailto, session]);
 
   // --------------------SCROLL TO VIEW--------------------
   useEffect(() => {

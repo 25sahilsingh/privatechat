@@ -34,7 +34,7 @@ export default function Home() {
             onClick={() => signIn(undefined, { callbackUrl: "/chatpage" })}
             className="mt-8 px-10 py-3 text-lg font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 transition shadow-xl shadow-indigo-500/30"
           >
-            Get Started – It's Free
+            Get Started - It&apos;s Free
           </button>
         )}
 
@@ -50,7 +50,7 @@ export default function Home() {
       <section className="grid md:grid-cols-3 gap-8 mt-24 px-10 md:px-20 pb-20">
         <FeatureCard
           title="Email Only"
-          text="No phone number required. Your email is your identity—simple & secure."
+          text="No phone number required. Your email is your identity—simple & secure.In professional environment you hesistate to share your personal mobile number or just simply wanted to keep the professional and private stuff seprated."
         />
         <FeatureCard
           title="Private & Secure"

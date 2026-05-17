@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",
     "build": "next build --turbopack",
-    "start": "concurrently \"next start\" \"nodemon server/socket.js\"",
+    "start": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",
     "lint": "eslint"
   },
   "dependencies": {

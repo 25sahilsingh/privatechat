@@ -22,7 +22,7 @@ export default function ChatPage() {
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
     if (!session) return;
-    socket = io("http://localhost:5000", {
+    socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
       query: `loggeduser=${session?.user.email}`,
     });
     const fetchPrev = async () => {

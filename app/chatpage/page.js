@@ -19,11 +19,16 @@ export default function ChatPage() {
   const [prevconnecteduser, setprevconnecteduser] = useState([]);
   const [unreadcount, setunreadcount] = useState({});
   const [rightprofile_menu, setrightprofile_menu] = useState(false);
+  const socketInitialized = useRef(false);
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
-    if (!session) return;
+    if (!session || socketInitialized.current) return; // skip if already created
+    socketInitialized.current = true;
     socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
-      query: `loggeduser=${session?.user.email}`,
+      query: { loggeduser: session.user.email },
+    });
+    socket.on("onlineuser", ({ onlineusers }) => {
+      setonlineUsers(onlineusers);
     });
     const fetchPrev = async () => {
       const {
@@ -38,24 +43,25 @@ export default function ChatPage() {
     };
     fetchPrev();
 
-    socket.on("onlineuser", ({ onlineusers }) => {
-      setonlineUsers(onlineusers);
-    });
-
-    return () => socket.disconnect();
+    return () => {
+      socket.disconnect();
+      socketInitialized.current = false;
+    };
   }, [session]);
 
   // -------------------- FETCH CHAT + MESSAGE LISTENER --------------------
   useEffect(() => {
-    if (!mailto && !session) return;
-    socket.on("messagefrombackend", ({ message, mailFrom, mailTo }) => {
+    if (!mailto || !session) return;
+    const handler = ({ message, mailFrom, mailTo }) => {
       if (mailFrom === session.user.email || mailFrom === mailto) {
         setmessages((prev) => [
           ...prev,
           { message, mailfrom: mailFrom, mailto: mailTo },
         ]);
       }
-    });
+    };
+
+    socket.on("messagefrombackend", handler);
 
     const fetchChat = async () => {
       const users = {
@@ -69,7 +75,7 @@ export default function ChatPage() {
     };
     fetchChat();
 
-    return () => socket.removeAllListeners("messagefrombackend");
+    return () => socket.off("messagefrombackend", handler);
   }, [mailto, session]);
 
   // --------------------SCROLL TO VIEW--------------------

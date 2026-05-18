@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",
-    "build": "next build --turbopack",
-    "start": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",
+    "build": "next build",
+    "start": "concurrently \"next start\" \"node server/socket.js\"",
     "lint": "eslint"
   },
   "dependencies": {

@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev --turbopack\" \"nodemon server/socket.js\"",
+    "dev": "nodemon server.js",
     "build": "next build",
-    "start": "concurrently \"next start\" \"node server/socket.js\"",
+    "start": "node server.js",
     "lint": "eslint"
   },
   "dependencies": {

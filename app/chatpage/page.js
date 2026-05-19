@@ -24,7 +24,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (!session || socketInitialized.current) return; // skip if already created
     socketInitialized.current = true;
-    socket = io(process.env.PORT || 10000, {
+    socket = io({
       query: { loggeduser: session.user.email },
     });
     socket.on("onlineuser", ({ onlineusers }) => {

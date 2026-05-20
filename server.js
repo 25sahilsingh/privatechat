@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 
 const PORT = parseInt(process.env.PORT || "10000", 10);
 const dev = process.env.NODE_ENV !== "production";
+
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -11,41 +12,49 @@ app.prepare().then(() => {
   const httpServer = createServer((req, res) => {
     handle(req, res);
   });
+
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
     },
   });
-  const binder = {};
-  io.on("connection", (socket) => {
-    binder[socket.handshake.query.loggeduser] = socket.id;
-    io.emit("onlineuser", { onlineusers: binder });
 
-    socket.on("messagefromclient", ({ mailfrom, mailto, message }) => {
-      if (binder[mailto]) {
-        io.to(binder[mailto]).emit("messagefrombackend", {
-          mailFrom: mailfrom,
-          mailTo: mailto,
-          message,
-        });
+  const emitOnlineUsers = () => {
+    const onlineUsers = [];
+
+    for (const room of io.sockets.adapter.rooms.keys()) {
+      if (!io.sockets.sockets.has(room)) {
+        onlineUsers.push(room);
       }
-      io.to(binder[mailfrom]).emit("messagefrombackend", {
+    }
+
+    io.emit("onlineuser", { onlineUsers });
+  };
+
+  io.on("connection", (socket) => {
+    const userEmail = socket.handshake.query.loggeduser;
+    console.log("Socket connected:", socket.id, userEmail);
+    socket.join(userEmail);
+    emitOnlineUsers();
+    socket.on("messagefromclient", ({ mailfrom, mailto, message }) => {
+      const payload = {
         mailFrom: mailfrom,
         mailTo: mailto,
         message,
-      });
+      };
+
+      io.to(mailto).emit("messagefrombackend", payload);
+      io.to(mailfrom).emit("messagefrombackend", payload);
     });
 
     socket.on("disconnect", () => {
-      for (let key in binder) {
-        if (binder[key] === socket.id) {
-          delete binder[key];
-        }
-      }
-      io.emit("onlineuser", { onlineusers: binder });
+      console.log("Socket disconnected:", socket.id);
+
+      emitOnlineUsers();
     });
   });
+
   httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
   });

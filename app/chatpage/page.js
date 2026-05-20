@@ -15,7 +15,7 @@ export default function ChatPage() {
   const [mailto, setmailto] = useState("");
   const [message, setmessage] = useState("");
   const [messages, setmessages] = useState([]);
-  const [onlineUsers, setonlineUsers] = useState({});
+  const [onlineUsers, setonlineUsers] = useState([]);
   const [prevconnecteduser, setprevconnecteduser] = useState([]);
   const [unreadcount, setunreadcount] = useState({});
   const [rightprofile_menu, setrightprofile_menu] = useState(false);
@@ -27,9 +27,10 @@ export default function ChatPage() {
     socket = io({
       query: { loggeduser: session.user.email },
     });
-    socket.on("onlineuser", ({ onlineusers }) => {
-      setonlineUsers(onlineusers);
+    socket.on("onlineuser", ({ onlineUsers }) => {
+      setonlineUsers(onlineUsers);
     });
+    console.log("online users updated:", onlineUsers);
     const fetchPrev = async () => {
       const {
         data: { fetchconnecteduser },

@@ -51,9 +51,7 @@ export default function ContactLeft({
           <div className="relative flex gap-4 items-center">
             <div
               className={`flex justify-center items-center h-6 w-6 rounded-full ${
-                onlineUsers.hasOwnProperty(user)
-                  ? "bg-green-400"
-                  : "bg-gray-600"
+                onlineUsers.includes(user) ? "bg-green-400" : "bg-gray-600"
               }`}
             >
               {unreadcount[user] !== 0 ? unreadcount[user] : ""}

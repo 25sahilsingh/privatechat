@@ -22,7 +22,7 @@ export default function ChatPage() {
   const socketInitialized = useRef(false);
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
-    if (!session || socketInitialized.current) return; // skip if already created
+    if (!session || socketInitialized.current) return;
     socketInitialized.current = true;
     socket = io({
       query: { loggeduser: session.user.email },
@@ -43,6 +43,15 @@ export default function ChatPage() {
       setprevconnecteduser(fetchconnecteduser);
     };
     fetchPrev();
+    //add new user to db if not present
+    const adduser = async () => {
+      await axios.patch("/api/user/addnewuser", {
+        mail: session.user.email,
+        name: session.user.name,
+        Image: session.user.image,
+      });
+    };
+    adduser();
 
     return () => {
       socket.disconnect();

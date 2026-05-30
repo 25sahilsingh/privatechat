@@ -6,8 +6,8 @@ function Popup_sidemenu({
   currentuser,
   setprevconnecteduser,
   changemailto,
-  rightprofile_menu,
-  setrightprofile_menu,
+  is_Visible_Profile,
+  setis_Visible_Profile,
 }) {
   const [menuopen, setMenuopen] = useState(false);
 
@@ -33,7 +33,7 @@ function Popup_sidemenu({
         <ul className="absolute right-0 top-full mt-2 z-10 rounded-md border bg-gray-700 shadow-lg w-max">
           <li
             onClick={() => {
-              setrightprofile_menu((prev) => !prev);
+              setis_Visible_Profile((prev) => !prev);
               setMenuopen(false);
             }}
             className="p-2 hover:bg-gray-800 cursor-pointer text-white"
@@ -48,8 +48,8 @@ function Popup_sidemenu({
           </li>
         </ul>
       )}
-      {rightprofile_menu && (
-        <Profile_sidedrawer setrightprofile_menu={setrightprofile_menu} />
+      {is_Visible_Profile && (
+        <Profile_sidedrawer setis_Visible_Profile={setis_Visible_Profile} />
       )}
     </div>
   );

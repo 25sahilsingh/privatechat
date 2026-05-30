@@ -18,7 +18,7 @@ export default function ChatPage() {
   const [onlineUsers, setonlineUsers] = useState([]);
   const [prevconnecteduser, setprevconnecteduser] = useState([]);
   const [unreadcount, setunreadcount] = useState({});
-  const [rightprofile_menu, setrightprofile_menu] = useState(false);
+  const [is_Visible_Profile, setis_Visible_Profile] = useState(false);
   const socketInitialized = useRef(false);
   // -------------------- SOCKET + INITIAL FETCH --------------------
   useEffect(() => {
@@ -171,8 +171,8 @@ export default function ChatPage() {
             setmailto(mail);
           }}
           mailto={mailto}
-          rightprofile_menu={rightprofile_menu}
-          setrightprofile_menu={setrightprofile_menu}
+          is_Visible_Profile={is_Visible_Profile}
+          setis_Visible_Profile={setis_Visible_Profile}
         />
       </aside>
       {/* MAIN CHAT AREA */}
@@ -187,8 +187,8 @@ export default function ChatPage() {
             setprevconnecteduser={setprevconnecteduser}
             mailTo={mailto}
             currentuser={session?.user.email}
-            rightprofile_menu={rightprofile_menu}
-            setrightprofile_menu={setrightprofile_menu}
+            is_Visible_Profile={is_Visible_Profile}
+            setis_Visible_Profile={setis_Visible_Profile}
           />
         </div>
 

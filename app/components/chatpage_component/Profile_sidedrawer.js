@@ -1,9 +1,9 @@
-const Profile_sidedrawer = ({ setrightprofile_menu }) => {
+const Profile_sidedrawer = ({ setis_Visible_Profile }) => {
   return (
     <div>
       {/* Backdrop */}
       <div
-        onClick={() => setrightprofile_menu(false)}
+        onClick={() => setis_Visible_Profile(false)}
         className="fixed inset-0 bg-black/50 z-40"
       ></div>
 
@@ -18,7 +18,7 @@ const Profile_sidedrawer = ({ setrightprofile_menu }) => {
           <h3 className="font-semibold text-foreground">Profile</h3>
 
           <button
-            onClick={() => setrightprofile_menu(false)}
+            onClick={() => setis_Visible_Profile(false)}
             className="size-8 flex justify-center items-center rounded-full"
           >
             ✕

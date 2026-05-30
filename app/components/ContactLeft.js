@@ -8,8 +8,8 @@ export default function ContactLeft({
   mailto,
   unreadcount,
   currentuser,
-  rightprofile_menu,
-  setrightprofile_menu,
+  is_Visible_Profile,
+  setis_Visible_Profile,
 }) {
   const [openMenuUser, setOpenMenuUser] = useState(null);
   const menuconatainer = useRef(null);
@@ -76,7 +76,7 @@ export default function ContactLeft({
                   </div>
                   <div
                     onClick={() => {
-                      setrightprofile_menu((prev) => !prev);
+                      setis_Visible_Profile((prev) => !prev);
                     }}
                     className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                   >

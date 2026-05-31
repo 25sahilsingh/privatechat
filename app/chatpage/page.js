@@ -48,7 +48,7 @@ export default function ChatPage() {
       await axios.patch("/api/user/addnewuser", {
         mail: session.user.email,
         name: session.user.name,
-        Image: session.user.image,
+        image: session.user.image,
       });
     };
     adduser();

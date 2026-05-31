@@ -1,4 +1,23 @@
-const Profile_sidedrawer = ({ setis_Visible_Profile }) => {
+"use client";
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+const Profile_sidedrawer = ({ mailTo, setis_Visible_Profile }) => {
+  const [target_user_detail, setTarget_User_Detail] = useState(null);
+  useEffect(() => {
+    if (!mailTo) return;
+
+    const Get_Target_User_Detail = async () => {
+      const { data } = await axios.get(
+        "/api/user/getuserdetail?mail=" + mailTo,
+      );
+      setTarget_User_Detail(data.target_user_detail);
+      console.log("mail to", mailTo);
+    };
+    Get_Target_User_Detail();
+  }, [mailTo]);
+  console.log("target user detail", target_user_detail);
   return (
     <div>
       {/* Backdrop */}
@@ -9,7 +28,7 @@ const Profile_sidedrawer = ({ setis_Visible_Profile }) => {
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-overlay border-l border-overlay-line z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-auto bg-overlay border-l border-overlay-line z-50 transform transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -28,8 +47,22 @@ const Profile_sidedrawer = ({ setis_Visible_Profile }) => {
         {/* Body */}
         <div className="p-4">
           <p className="text-foreground">
-            Here the person details will be shown like profile picture, name,
-            email and other
+            {target_user_detail ? (
+              <>
+                <Image
+                  width={50}
+                  height={50}
+                  alt="profile_image"
+                  src={target_user_detail.image || "/noprofileimage.webp"}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <strong>Name:</strong> {target_user_detail.name}
+                <br />
+                <strong>Email:</strong> {target_user_detail.mail}
+              </>
+            ) : (
+              "Loading..."
+            )}
           </p>
         </div>
       </div>

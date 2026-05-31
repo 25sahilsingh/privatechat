@@ -49,7 +49,10 @@ function Popup_sidemenu({
         </ul>
       )}
       {is_Visible_Profile && (
-        <Profile_sidedrawer setis_Visible_Profile={setis_Visible_Profile} />
+        <Profile_sidedrawer
+          mailTo={mailTo}
+          setis_Visible_Profile={setis_Visible_Profile}
+        />
       )}
     </div>
   );

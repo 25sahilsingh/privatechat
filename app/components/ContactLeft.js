@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 export default function ContactLeft({
   prevconnecteduser,
   setprevconnecteduser,
@@ -8,11 +9,21 @@ export default function ContactLeft({
   mailto,
   unreadcount,
   currentuser,
-  is_Visible_Profile,
   setis_Visible_Profile,
 }) {
   const [openMenuUser, setOpenMenuUser] = useState(null);
   const menuconatainer = useRef(null);
+  const [prevuserdetail, setprevuserdetail] = useState([]);
+  useEffect(() => {
+    const getuserdetail = async () => {
+      const { data } = await axios.get(
+        "/api/user/getuserdetail?mail=" + JSON.stringify(prevconnecteduser),
+      );
+      console.log("data", data.target_user_detail);
+      setprevuserdetail(data.target_user_detail);
+    };
+    getuserdetail();
+  }, [prevconnecteduser]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -40,36 +51,46 @@ export default function ContactLeft({
   };
   return (
     <div className="flex-1 overflow-y-auto">
-      {prevconnecteduser.map((user, index) => (
+      {prevuserdetail.map((user, index) => (
         <div
           key={index}
-          onClick={() => changemailto(user)}
+          onClick={() => changemailto(user.mail)}
           className={`p-3 flex items-center justify-between cursor-pointer border-b border-gray-800 hover:bg-gray-800/40 transition
-          ${user === mailto ? "bg-gray-800" : ""}`}
+          ${user.mail === mailto ? "bg-gray-800" : ""}`}
         >
-          <div>{user}</div>
+          <Image
+            width={50}
+            height={50}
+            alt="profile_image"
+            src={user.image || "/noprofileimage.webp"}
+            className="w-8 h-8 rounded-full object-cover"
+          />
+          <div>{user.mail}</div>
+
           <div className="relative flex gap-4 items-center">
             <div
               className={`flex justify-center items-center h-6 w-6 rounded-full ${
-                onlineUsers.includes(user) ? "bg-green-400" : "bg-gray-600"
+                onlineUsers.includes(user.mail) ? "bg-green-400" : "bg-gray-600"
               }`}
             >
-              {unreadcount[user] !== 0 ? unreadcount[user] : ""}
+              {unreadcount[user.mail] !== 0 ? unreadcount[user.mail] : ""}
             </div>
-            <div ref={openMenuUser === user ? menuconatainer : null}>
+            <div ref={openMenuUser === user.mail ? menuconatainer : null}>
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-                  setOpenMenuUser((prev) => (prev === user ? null : user));
+                  setOpenMenuUser((prev) =>
+                    prev === user.mail ? null : user.mail,
+                  );
                 }}
                 className="cursor-pointer px-2"
               >
                 :
               </div>
-              {openMenuUser === user && (
+              {openMenuUser === user.mail && (
                 <div className=" absolute right-2 top-8 bg-gray-900 border rounded shadow-lg z-10 whitespace-nowrap">
                   <div
-                    onClick={() => handledeletechat(user)}
+                    onClick={() => handledeletechat(user.mail)}
                     className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                   >
                     Delete Chat

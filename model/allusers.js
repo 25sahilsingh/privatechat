@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 const usersSchema = new Schema({
-  mail: String,
+  mail: { type: String, unique: true },
   name: String,
   image: String,
 });

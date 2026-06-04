@@ -7,13 +7,12 @@ const Profile_sidedrawer = ({ mailTo, setis_Visible_Profile }) => {
   const [target_user_detail, setTarget_User_Detail] = useState(null);
   useEffect(() => {
     if (!mailTo) return;
-
+    console.log("mailTo", mailTo);
     const Get_Target_User_Detail = async () => {
       const { data } = await axios.get(
-        "/api/user/getuserdetail?mail=" + mailTo,
+        "/api/user/getuserdetail?mail=" + JSON.stringify([mailTo]),
       );
-      setTarget_User_Detail(data.target_user_detail);
-      console.log("mail to", mailTo);
+      setTarget_User_Detail(data?.target_user_detail[0]);
     };
     Get_Target_User_Detail();
   }, [mailTo]);

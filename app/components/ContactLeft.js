@@ -49,6 +49,7 @@ export default function ContactLeft({
     changemailto("");
     setOpenMenuUser(null);
   };
+
   return (
     <div className="flex-1 overflow-y-auto">
       {prevuserdetail.map((user, index) => (
@@ -58,15 +59,20 @@ export default function ContactLeft({
           className={`p-3 flex items-center justify-between cursor-pointer border-b border-gray-800 hover:bg-gray-800/40 transition
           ${user.mail === mailto ? "bg-gray-800" : ""}`}
         >
-          <Image
-            width={50}
-            height={50}
-            alt="profile_image"
-            src={user.image || "/noprofileimage.webp"}
-            className="w-8 h-8 rounded-full object-cover"
-          />
-          <div>{user.mail}</div>
-
+          <div className="flex items-center space-x-2">
+            <Image
+              width={50}
+              height={50}
+              alt="profile_image"
+              src={user.image || "/noprofileimage.webp"}
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <div>{user.name}</div>(
+            <div className="text-sm text-gray-400">
+              {user.mail.replace("@gmail.com", "")}
+            </div>
+            )
+          </div>
           <div className="relative flex gap-4 items-center">
             <div
               className={`flex justify-center items-center h-6 w-6 rounded-full ${

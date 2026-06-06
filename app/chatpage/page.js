@@ -178,7 +178,7 @@ export default function ChatPage() {
       {/* MAIN CHAT AREA */}
       <main className="flex-1 flex flex-col">
         {/* Chat Header */}
-        <div className="flex p-4 border-b border-gray-800 bg-[#0e0e0e] text-xl font-semibold space justify-between">
+        <div className="flex p-4 border-b border-gray-800 bg-[#0e0e0e] text-xl font-semibold justify-between items-center">
           {mailto ? `Chat with: ${mailto}` : "Select a contact"}
           <Popup_sidemenu
             changemailto={(mail) => {

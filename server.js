@@ -4,7 +4,6 @@ import { Server } from "socket.io";
 
 const PORT = parseInt(process.env.PORT || "10000", 10);
 const dev = process.env.NODE_ENV !== "production";
-
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -12,23 +11,19 @@ app.prepare().then(() => {
   const httpServer = createServer((req, res) => {
     handle(req, res);
   });
-
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
     },
   });
-
   const emitOnlineUsers = () => {
     const onlineUsers = [];
-
     for (const room of io.sockets.adapter.rooms.keys()) {
       if (!io.sockets.sockets.has(room)) {
         onlineUsers.push(room);
       }
     }
-
     io.emit("onlineuser", { onlineUsers });
   };
 
@@ -37,6 +32,7 @@ app.prepare().then(() => {
     console.log("Socket connected:", socket.id, userEmail);
     socket.join(userEmail);
     emitOnlineUsers();
+    
     socket.on("messagefromclient", ({ mailfrom, mailto, message }) => {
       const payload = {
         mailFrom: mailfrom,
@@ -50,7 +46,6 @@ app.prepare().then(() => {
 
     socket.on("disconnect", () => {
       console.log("Socket disconnected:", socket.id);
-
       emitOnlineUsers();
     });
   });

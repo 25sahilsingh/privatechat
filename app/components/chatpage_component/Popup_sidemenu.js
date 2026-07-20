@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Profile_sidedrawer from "./Profile_sidedrawer";
 import axios from "axios";
+import { EllipsisVertical } from "lucide-react";
 function Popup_sidemenu({
   mailTo,
   currentuser,
@@ -24,9 +25,9 @@ function Popup_sidemenu({
     <div className="flex justify-end relative">
       <button
         onClick={() => setMenuopen(!menuopen)}
-        className="rounded-md bg-slate-800 py-2 px-4 text-xl text-white"
+        className="rounded-md bg-slate-800  py-3 px-2 text-xl text-white"
       >
-        :
+        <EllipsisVertical />
       </button>
 
       {menuopen && (

@@ -10,10 +10,13 @@ export default function ContactLeft({
   unreadcount,
   currentuser,
   setis_Visible_Profile,
+  setm_makeLeft_sidecontactvisible,
+  m_makeLeft_sidecontactvisible,
 }) {
   const [openMenuUser, setOpenMenuUser] = useState(null);
   const menuconatainer = useRef(null);
   const [prevuserdetail, setprevuserdetail] = useState([]);
+
   useEffect(() => {
     const getuserdetail = async () => {
       const { data } = await axios.get(
@@ -55,17 +58,20 @@ export default function ContactLeft({
       {prevuserdetail.map((user, index) => (
         <div
           key={index}
-          onClick={() => changemailto(user.mail)}
+          onClick={() => {
+            changemailto(user.mail);
+            setm_makeLeft_sidecontactvisible(false);
+          }}
           className={`p-3 flex items-center justify-between cursor-pointer border-b border-gray-800 hover:bg-gray-800/40 transition
           ${user.mail === mailto ? "bg-gray-800" : ""}`}
         >
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             <Image
               width={50}
               height={50}
               alt="profile_image"
               src={user.image || "/noprofileimage.webp"}
-              className="w-8 h-8 rounded-full object-cover"
+              className="rounded-full w-12 h-12 object-cover mr-3"
             />
             <div>{user.name}</div>(
             <div className="text-sm text-gray-400">

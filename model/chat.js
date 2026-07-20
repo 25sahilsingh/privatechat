@@ -4,5 +4,6 @@ const chatsSchema = new Schema({
   mailto: String,
   message: String,
   seen: Boolean,
+  group_id: { type: String, default: null },
 });
 export const Chat = mongoose.models.Chat || mongoose.model("Chat", chatsSchema);
